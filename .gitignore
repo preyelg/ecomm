@@ -1,37 +1,95 @@
-# Local .terraform directories
+Java and Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+Maven Wrapper
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+
+Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+VS Code
+.vscode/
+
+OS-generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+Environment variables and secrets
+.env
+.env.*
+*.secret
+*.key
+*.pem
+*.crt
+
+Docker
+docker-compose.override.yml
+docker-compose..yml
+Dockerfile.
+*.tar
+*.gz
+*.bak
+
+Jenkins
+/jenkins_home/
+/jobs/
+/workspace/
+/builds/
+/logs/
+
+Terraform (optional)
 .terraform/
-
-# .tfstate files
 *.tfstate
-*.tfstate.*
-
-# Crash log files
+.tfstate.
 crash.log
-crash.*.log
-
-# Exclude all .tfvars files, which are likely to contain sensitive data, such as
-# password, private keys, and other secrets. These should not be part of version 
-# control as they are data points which are potentially sensitive and subject 
-# to change depending on the environment.
-*.tfvars
-*.tfvars.json
-
-# Ignore override files as they are usually used to override resources locally and so
-# are not checked in
+terraform.tfvars
 override.tf
 override.tf.json
-*_override.tf
-*_override.tf.json
+*.backup
 
-# Ignore transient lock info files created by terraform apply
-.terraform.tfstate.lock.info
+Kubernetes (optional)
+*.kube/config
+*.kube/cache/
 
-# Include override files you do wish to add to version control using negated pattern
-# !example_override.tf
+Logs and temp
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
+nohup.out
 
-# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
-# example: *tfplan*
+Compiled or package artifacts
+dist/
+build/
 
-# Ignore CLI configuration files
-.terraformrc
-terraform.rc
+Optional test/coverage output
+/test-output/
+/coverage/
+/jacoco.exec
+
+Node.js artifacts (if frontend exists)
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-lock.yaml
