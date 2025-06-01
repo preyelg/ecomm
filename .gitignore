@@ -61,6 +61,7 @@ Terraform (optional)
 .terraform/
 *.tfstate
 .tfstate.
+.terraform.lock.hcl
 crash.log
 terraform.tfvars
 override.tf
