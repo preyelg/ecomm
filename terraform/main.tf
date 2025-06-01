@@ -22,7 +22,7 @@ module "eks" {
   cluster_version = "1.29"
 
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
+  subnet_ids = module.vpc.public_subnets
 
   eks_managed_node_groups = {
     default = {
