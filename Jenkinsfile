@@ -15,24 +15,22 @@ pipeline {
 
         stage('Build with Maven') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh "docker build -t $DOCKER_IMAGE:$IMAGE_TAG ."
-                }
+                bat "docker build -t %DOCKER_IMAGE%:%IMAGE_TAG% ."
             }
         }
 
         stage('Push to DockerHub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker push $DOCKER_IMAGE:$IMAGE_TAG
+                    bat '''
+                        echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                        docker push %DOCKER_IMAGE%:%IMAGE_TAG%
                     '''
                 }
             }
@@ -40,7 +38,7 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                sh "kubectl set image deployment/ecommerce-app ecommerce-app=$DOCKER_IMAGE:$IMAGE_TAG"
+                bat "kubectl set image deployment/ecommerce-app ecommerce-app=%DOCKER_IMAGE%:%IMAGE_TAG%"
             }
         }
     }
