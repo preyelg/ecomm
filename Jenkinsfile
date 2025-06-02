@@ -27,12 +27,22 @@ pipeline {
 
         stage('Push to DockerHub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'Docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: 'Docker-hub',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
                     bat '''
                         echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
                         docker push %DOCKER_IMAGE%:%IMAGE_TAG%
                     '''
                 }
+            }
+        }
+
+        stage('Test kubectl') {
+            steps {
+                bat 'kubectl get nodes'
             }
         }
 
