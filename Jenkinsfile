@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'deployment-2', url: 'https://github.com/preyelg/ecomm.git'
+                git branch: 'clean-deployment', url: 'https://github.com/preyelg/ecomm.git'
             }
         }
 
