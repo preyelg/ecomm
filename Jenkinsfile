@@ -9,7 +9,9 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/preyelg/ecomm.git'
+                git branch: 'deployment-2', url: 'https://github.com/preyelg/ecomm.git'
+                // Change to 'deployment' if you're using that branch instead
+                // git branch: 'deployment', url: 'https://github.com/preyelg/ecomm.git'
             }
         }
 
@@ -21,10 +23,13 @@ pipeline {
 
         stage('Push to DockerHub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: 'Docker-hub',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS')]) {
                     bat """
-                        echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
-                        docker push %DOCKER_IMAGE%:%IMAGE_TAG%
+                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                    docker push %DOCKER_IMAGE%:%IMAGE_TAG%
                     """
                 }
             }
