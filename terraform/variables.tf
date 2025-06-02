@@ -3,10 +3,11 @@ variable "aws_region" {
 }
 
 variable "cluster_name" {
-  default = "ecomm-eks-cluster"
+  default = "ecommerce-eks"
 }
 
-variable "key_pair_name" {
-  description = "Your EC2 Key Pair name"
+variable "ec2_key_pair" {
+  description = "Name of your existing EC2 Key Pair"
+  type        = string
   default     = "linux"
 }
