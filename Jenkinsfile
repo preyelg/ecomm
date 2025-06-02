@@ -9,27 +9,30 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'deployment-2', url: 'https://github.com/preyelg/ecomm.git'
-                // Change to 'deployment' if you're using that branch instead
-                // git branch: 'deployment', url: 'https://github.com/preyelg/ecomm.git'
+                git 'https://github.com/preyelg/ecomm.git'
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat "docker build -t %DOCKER_IMAGE%:%IMAGE_TAG% ."
+                script {
+                    sh "docker build -t $DOCKER_IMAGE:$IMAGE_TAG ."
+                }
             }
         }
 
         stage('Push to DockerHub') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'Docker-hub',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS')]) {
-                    bat """
-                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
-                    docker push %DOCKER_IMAGE%:%IMAGE_TAG%
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh """
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        docker push $DOCKER_IMAGE:$IMAGE_TAG
                     """
                 }
             }
@@ -37,7 +40,9 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                bat "kubectl set image deployment/ecommerce-app ecommerce-app=%DOCKER_IMAGE%:%IMAGE_TAG%"
+                sh """
+                    kubectl set image deployment/ecommerce-app ecommerce-app=$DOCKER_IMAGE:$IMAGE_TAG
+                """
             }
         }
     }

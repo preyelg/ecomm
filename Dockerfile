@@ -1,14 +1,14 @@
-#Use OpenJDK base image
+# Use OpenJDK base image
 FROM openjdk:17-jdk-slim
 
-#Set work directory
+# Set work directory
 WORKDIR /app
 
-#Copy the built jar from Maven target
-COPY target/ecommerce-1.0.0.jar app.jar
+# Copy the built jar file dynamically (assumes only one jar exists in target/)
+COPY target/*.jar app.jar
 
-#Expose the port your app runs on
+# Expose the port your app runs on
 EXPOSE 9090
 
-#Run the app
+# Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
