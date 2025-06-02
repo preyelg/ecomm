@@ -50,7 +50,7 @@ pipeline {
                 ]) {
                     bat """
                         aws eks update-kubeconfig --region us-east-2 --name ecommerce-eks
-                        kubectl set image deployment/ecommerce-app ecommerce-app=%DOCKER_IMAGE%:%IMAGE_TAG%
+                        kubectl set image deployment/ecommerce-app ecommerce-container=%DOCKER_IMAGE%:%IMAGE_TAG%
                     """
                 }
             }
